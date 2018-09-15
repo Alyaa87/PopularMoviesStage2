@@ -14,7 +14,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.android.popularmoviesstage2.Data.Contract;
-import com.example.android.popularmoviesstage2.Database.MovieContract;
 import com.example.android.popularmoviesstage2.Database.MovieDbHelper;
 import com.squareup.picasso.Picasso;
 

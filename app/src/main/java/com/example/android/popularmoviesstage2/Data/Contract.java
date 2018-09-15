@@ -1,5 +1,7 @@
 package com.example.android.popularmoviesstage2.Data;
 
+import android.provider.BaseColumns;
+
 import com.example.android.popularmoviesstage2.BuildConfig;
 
 public class Contract {
@@ -31,6 +33,17 @@ public class Contract {
     public static final String W185 = "w185";
     public static final String W500 = "w500";
     public static final String W780 = "w780";
+
+    //inner class for movie table
+    public static abstract class movieEntry implements BaseColumns {
+        public final static String TABLE_MOVIE_NAME = "MOVIE";
+        //columns of the table
+        public final static String _ID = BaseColumns._ID;
+        public final static String COLUMN_MOVIE_NAME = "title";
+
+        //the values for the columns
+
+    }
 
 
 }

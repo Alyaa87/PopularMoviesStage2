@@ -1,19 +1,17 @@
 package com.example.android.popularmoviesstage2;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.popularmoviesstage2.Database.MovieContract;
+import com.example.android.popularmoviesstage2.Data.Contract;
 import com.example.android.popularmoviesstage2.Database.MovieDbHelper;
 
 public class Favorites extends AppCompatActivity {
@@ -46,9 +44,9 @@ public class Favorites extends AppCompatActivity {
         String movieName = favoriteMovieName.getText().toString().trim();
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(MovieContract.movieEntry.COLUMN_MOVIE_NAME, movieName);
+        values.put(Contract.movieEntry.COLUMN_MOVIE_NAME, movieName);
 
-        long newRowId = db.insert(MovieContract.movieEntry.TABLE_MOVIE_NAME, null, values);
+        long newRowId = db.insert(Contract.movieEntry.TABLE_MOVIE_NAME, null, values);
         if (newRowId != -1) {
             Toast.makeText(this, "Movie has been added successfully ", Toast.LENGTH_LONG).show();
         } else if (newRowId == -1) {
@@ -77,12 +75,12 @@ public class Favorites extends AppCompatActivity {
 // you will actually use after this query.
         String[] projection = {
                 BaseColumns._ID,
-                MovieContract.movieEntry.COLUMN_MOVIE_NAME
+                Contract.movieEntry.COLUMN_MOVIE_NAME
         };
 
 
         Cursor cursor = db.query(
-                MovieContract.movieEntry.TABLE_MOVIE_NAME,   // The table to query
+                Contract.movieEntry.TABLE_MOVIE_NAME,   // The table to query
                 projection,             // The array of columns to return (pass null to get all)
                 null,              // The columns for the WHERE clause
                 null,          // The values for the WHERE clause
@@ -105,13 +103,13 @@ public class Favorites extends AppCompatActivity {
             // the information from each column in this order.
 
             displayView.setText("The movie table contains " + cursor.getCount() + " movie.\n\n");
-            displayView.append(MovieContract.movieEntry._ID + " - " +
-                    MovieContract.movieEntry.COLUMN_MOVIE_NAME +
+            displayView.append(Contract.movieEntry._ID + " - " +
+                    Contract.movieEntry.COLUMN_MOVIE_NAME +
                     "\n");
 
             // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(MovieContract.movieEntry._ID);
-            int nameColumnIndex = cursor.getColumnIndex(MovieContract.movieEntry.COLUMN_MOVIE_NAME);
+            int idColumnIndex = cursor.getColumnIndex(Contract.movieEntry._ID);
+            int nameColumnIndex = cursor.getColumnIndex(Contract.movieEntry.COLUMN_MOVIE_NAME);
 
 
             // Iterate through all the returned rows in the cursor

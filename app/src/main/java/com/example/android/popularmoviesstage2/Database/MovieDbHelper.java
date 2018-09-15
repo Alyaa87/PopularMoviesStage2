@@ -6,6 +6,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.android.popularmoviesstage2.Data.Contract;
+
 public class MovieDbHelper extends SQLiteOpenHelper {
     //create constants.
     public static final String DATABASE_NAME = "movie.db";
@@ -18,9 +20,9 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //CREATE TABLE movie (_id INTEGER, name TEXT);
-        String SQL_CREATE_MOVIE_TABLE =  "CREATE TABLE " + MovieContract.movieEntry.TABLE_MOVIE_NAME + "("
-                + MovieContract.movieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + MovieContract.movieEntry.COLUMN_MOVIE_NAME + " TEXT NOT NULL);";
+        String SQL_CREATE_MOVIE_TABLE =  "CREATE TABLE " + Contract.movieEntry.TABLE_MOVIE_NAME + "("
+                + Contract.movieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + Contract.movieEntry.COLUMN_MOVIE_NAME + " TEXT NOT NULL);";
 
         db.execSQL(SQL_CREATE_MOVIE_TABLE);
 
@@ -38,7 +40,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
 
         try {
             String query = "SELECT COUNT(*) FROM "
-                    + MovieContract.movieEntry.TABLE_MOVIE_NAME + " WHERE " + MovieContract.movieEntry._ID + " = ?";
+                    + Contract.movieEntry.TABLE_MOVIE_NAME + " WHERE " + Contract.movieEntry._ID + " = ?";
             c = db.rawQuery(query, new String[]{id});
             if (c.moveToFirst()) {
                 count = c.getInt(0);

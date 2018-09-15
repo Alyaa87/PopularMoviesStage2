@@ -1,6 +1,8 @@
 package com.example.android.popularmoviesstage2.Database;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -9,7 +11,7 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "movie.db";
     public static final int DATABASE_VERSION = 1;
     //constructor
-    public MovieDbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public MovieDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -27,5 +29,25 @@ public class MovieDbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
+    }
+
+    public boolean verification(String id) throws SQLException {
+        int count = -1;
+        Cursor c = null;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        try {
+            String query = "SELECT COUNT(*) FROM "
+                    + MovieContract.movieEntry.TABLE_MOVIE_NAME + " WHERE " + MovieContract.movieEntry._ID + " = ?";
+            c = db.rawQuery(query, new String[]{id});
+            if (c.moveToFirst()) {
+                count = c.getInt(0);
+            }
+            return count > 0;
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
     }
 }

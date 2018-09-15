@@ -2,6 +2,7 @@ package com.example.android.popularmoviesstage2;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -195,6 +196,11 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.top_rated) {
             //set the Url to top rated
             loadTopMovieData();
+            return true;
+        } if (id == R.id.favorite_movie){
+            //open the favorite activity
+            Intent favoritesIntent = new Intent(this,Favorites.class);
+            startActivity(favoritesIntent);
             return true;
         }
         return super.onOptionsItemSelected(item);

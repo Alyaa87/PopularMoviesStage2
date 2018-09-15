@@ -9,7 +9,6 @@ public class MovieContract {
         //columns of the table
         public final static String _ID = BaseColumns._ID;
         public final static String COLUMN_MOVIE_NAME = "name";
-//        public final static String COLUMN_IMAGE = "image";
 
         //the values for the columns
 

@@ -39,7 +39,7 @@ public class Contract {
         public final static String TABLE_MOVIE_NAME = "MOVIE";
         //columns of the table
         public final static String _ID = BaseColumns._ID;
-        public final static String COLUMN_MOVIE_NAME = "title";
+        public final static String COLUMN_MOVIE_NAME = "name";
 
         //the values for the columns
 

@@ -40,13 +40,11 @@ public class DetailsActivity extends AppCompatActivity {
 
         mDbHelper = new MovieDbHelper(this);
         mCheckBox = (CheckBox)findViewById(R.id.favorites_checkbox);
-        mCheckBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent checkBoxIntent = new Intent();
-                displayDatabaseInfo();
-            }
-        });
+        CheckBox checkBox = new CheckBox(this);
+        checkBox.isSelected();
+        if (checkBox.isSelected() ==true){
+
+        }
 
 
         //Reference
@@ -90,6 +88,10 @@ public class DetailsActivity extends AppCompatActivity {
         // Create and/or open a database to read from it
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();}
+
+        private void selectCheckBox(){
+
+        }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

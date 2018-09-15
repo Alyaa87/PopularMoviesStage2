@@ -7,6 +7,7 @@ import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,18 +26,20 @@ public class Favorites extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mDbHelper = new MovieDbHelper(this);
         // Find all relevant views that we will need to read user input from
         favoriteMovieName = (TextView) findViewById(R.id.favorite_movie_tv);
         noMoviesTextView = (TextView)findViewById(R.id.no_movies_tv);
-
         mCheckBox = (CheckBox) findViewById(R.id.favorites_checkbox);
-
+        CheckBox checkBox = new CheckBox(this);
+        checkBox.isSelected();
         //add if statement to show favorite movies list
         //else show noMoviesText msg.
+        if (checkBox.isSelected() ==true){
+           insertMovieInfo();
+        } else setNoMoviesTextView();
 
-        insertMovieInfo();
-        displayDatabaseInfo();
 
     }
 
@@ -129,7 +132,6 @@ public class Favorites extends AppCompatActivity {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid
             cursor.close();
-
         }
 
     }
@@ -142,5 +144,9 @@ public class Favorites extends AppCompatActivity {
             onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setNoMoviesTextView(){
+        noMoviesTextView.setVisibility(View.VISIBLE);
     }
 }

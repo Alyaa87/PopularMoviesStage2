@@ -1,17 +1,19 @@
 package com.example.android.popularmoviesstage2;
 
+import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.popularmoviesstage2.Data.Contract;
 import com.example.android.popularmoviesstage2.Database.MovieDbHelper;
@@ -22,6 +24,7 @@ import static com.example.android.popularmoviesstage2.Data.Contract.EXTRA_RATE;
 import static com.example.android.popularmoviesstage2.Data.Contract.EXTRA_TITLE;
 import static com.example.android.popularmoviesstage2.Data.Contract.EXTRA_URL;
 import static com.example.android.popularmoviesstage2.Data.Contract.EXTRA_YEAR;
+import static com.example.android.popularmoviesstage2.Data.Contract.TITLE;
 
 public class DetailsActivity extends AppCompatActivity {
     //field to store the movie details
@@ -40,12 +43,8 @@ public class DetailsActivity extends AppCompatActivity {
 
         mDbHelper = new MovieDbHelper(this);
         mCheckBox = (CheckBox)findViewById(R.id.favorites_checkbox);
-        CheckBox checkBox = new CheckBox(this);
-        checkBox.isSelected();
-        if (checkBox.isSelected() ==true){
-
-        }
-
+        //when the checkbox is selected , add the movie to Favorite database
+        onCheckboxClicked(mCheckBox);
 
         //Reference
         mTitleTxt = findViewById(R.id.original_title_tv);
@@ -80,18 +79,65 @@ public class DetailsActivity extends AppCompatActivity {
                 .load(Contract.IMAGE_URL + Contract.W780 + mUrl)
                 .into(mMoviePoster);
     }
+//
+//    private void displayDatabaseInfo() {
+//        // To access our database, we instantiate our subclass of SQLiteOpenHelper
+//        // and pass the context, which is the current activity.
+//
+//        // Create and/or open a database to read from it
+//
+//        SQLiteDatabase db = mDbHelper.getReadableDatabase();}
 
-    private void displayDatabaseInfo() {
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity.
+//        private void insertMovieInfo() {
+//            CheckBox checkBox = new CheckBox(this);
+//            checkBox.isSelected();
+//            if (checkBox.isSelected() == true) {
+//                String movieName = TITLE.toString();
+//                SQLiteDatabase db = mDbHelper.getWritableDatabase();
+//                ContentValues values = new ContentValues();
+//                values.put(Contract.movieEntry.COLUMN_MOVIE_NAME, movieName);
+//
+//                long newRowId = db.insert(Contract.movieEntry.TABLE_MOVIE_NAME, null, values);
+//                if (newRowId != -1) {
+//                    Toast.makeText(this, "Movie has been added successfully ", Toast.LENGTH_LONG).show();
+//                } else if (newRowId == -1) {
+//                    Toast.makeText(this, "Movie failed to save ", Toast.LENGTH_LONG).show();
+//
+//                }
+//            }
+//        }
 
-        // Create and/or open a database to read from it
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+        if (checked) {
+            String movieName = mTitle.toString();
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(Contract.movieEntry.COLUMN_MOVIE_NAME, movieName);
 
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();}
+            long newRowId = db.insert(Contract.movieEntry.TABLE_MOVIE_NAME, null, values);
+            if (newRowId != -1) {
+                Toast.makeText(this, "Movie has been added successfully ", Toast.LENGTH_LONG).show();
+            } else if (newRowId == -1) {
+                Toast.makeText(this, "Movie failed to save ", Toast.LENGTH_LONG).show();
 
-        private void selectCheckBox(){
-
+            }
         }
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        /* Use AppCompatActivity's method getMenuInflater to get a handle on the menu inflater */
+        MenuInflater inflater = getMenuInflater();
+        /* Use the inflater's inflate method to inflate our menu layout to this menu */
+        inflater.inflate(R.menu.main, menu);
+        /* Return true so that the menu is displayed in the Toolbar */
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -99,9 +145,15 @@ public class DetailsActivity extends AppCompatActivity {
         if (id == android.R.id.home) {
             onBackPressed();
         }
+
+        if (id == R.id.favorite_movie){
+            //open the favorite activity
+            Intent favoritesIntent = new Intent(this,Favorites.class);
+            startActivity(favoritesIntent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

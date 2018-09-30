@@ -1,8 +1,7 @@
 package com.example.android.popularmoviesstage2.Data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
-
-import com.example.android.popularmoviesstage2.BuildConfig;
 
 public class Contract {
 
@@ -28,6 +27,9 @@ public class Contract {
     public static final String EXTRA_YEAR = "extra_year ";
     public static final String EXTRA_RATE = "extra_rate ";
     public static final String EXTRA_OVERVIEW = "extra_overview";
+    //the url for the vedio trailer
+    public static final String EXTRA_WEBVIEW_URL = "web_view_url ";
+
     //the url of value of image view
     public static final String IMAGE_URL = "http://image.tmdb.org/t/p/";
     public static final String W185 = "w185";
@@ -43,7 +45,16 @@ public class Contract {
 
         //the values for the columns
 
+
+        //content Uri
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_MOVIES);
+
+
     }
+    //set the content Authority
+    public static final String CONTENT_AUTHORITY = "com.example.android.popularmoviesstage2";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    public static final String PATH_MOVIES = "movies";
 
 
 }

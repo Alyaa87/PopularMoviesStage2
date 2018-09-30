@@ -5,6 +5,6 @@
     <string name="overview">overview</string>
     <string name="reload">Reload</string>
     <string name="favorites">Favorites</string>
-    <string name="no_fav_movies">No Favorites in the List</string>
+    <string name="no_fav_movies">No Favorite Movies in the List</string>
     <string name="title_activity_movie_detail">MovieDetailActivity</string>
 </resources>

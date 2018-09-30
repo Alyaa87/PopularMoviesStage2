@@ -33,31 +33,17 @@ public class Favorites extends AppCompatActivity {
         noMoviesTextView = (TextView)findViewById(R.id.no_movies_tv);
         mCheckBox = (CheckBox) findViewById(R.id.favorites_checkbox);
         CheckBox checkBox = new CheckBox(this);
-        checkBox.isSelected();
         //add if statement to show favorite movies list
         //else show noMoviesText msg.
         if (checkBox.isSelected() ==true){
-           insertMovieInfo();
-        } else setNoMoviesTextView();
+          displayDatabaseInfo();}
+
+//        } else setNoMoviesTextView();
 
 
     }
 
     private void insertMovieInfo() {
-        String movieName = favoriteMovieName.getText().toString().trim();
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Contract.movieEntry.COLUMN_MOVIE_NAME, movieName);
-
-        long newRowId = db.insert(Contract.movieEntry.TABLE_MOVIE_NAME, null, values);
-        if (newRowId != -1) {
-            Toast.makeText(this, "Movie has been added successfully ", Toast.LENGTH_LONG).show();
-        } else if (newRowId == -1) {
-            Toast.makeText(this, "Movie failed to save ", Toast.LENGTH_LONG).show();
-
-        }
-        displayDatabaseInfo();
-
     }
 
     @Override
@@ -69,10 +55,8 @@ public class Favorites extends AppCompatActivity {
     private void displayDatabaseInfo() {
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
-
         // Create and/or open a database to read from it
 
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
 // Define a projection that specifies which columns from the database
 // you will actually use after this query.
@@ -81,17 +65,19 @@ public class Favorites extends AppCompatActivity {
                 Contract.movieEntry.COLUMN_MOVIE_NAME
         };
 
+//
+//        Cursor cursor = db.query(
+//                Contract.movieEntry.TABLE_MOVIE_NAME,   // The table to query
+//                projection,             // The array of columns to return (pass null to get all)
+//                null,              // The columns for the WHERE clause
+//                null,          // The values for the WHERE clause
+//                null,                   // don't group the rows
+//                null,                   // don't filter by row groups
+//                null
+//        );
 
-        Cursor cursor = db.query(
-                Contract.movieEntry.TABLE_MOVIE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null
-        );
-
+        Cursor cursor = getContentResolver().query(Contract.movieEntry.CONTENT_URI ,
+                projection , null , null , null);
         // Perform this raw SQL query "SELECT * FROM movie"
         // to get a Cursor that contains all rows from the movie table.
 
@@ -146,7 +132,8 @@ public class Favorites extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setNoMoviesTextView(){
-        noMoviesTextView.setVisibility(View.VISIBLE);
-    }
+//    private void setNoMoviesTextView(){
+//        noMoviesTextView.setVisibility(View.VISIBLE);
+//        favoriteMovieName.setVisibility(View.INVISIBLE);
+//    }
 }

@@ -3,17 +3,22 @@ package com.example.android.popularmoviesstage2;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.example.android.popularmoviesstage2.Data.Contract;
 import com.example.android.popularmoviesstage2.Database.MovieDbHelper;
@@ -33,6 +38,7 @@ public class DetailsActivity extends AppCompatActivity {
     public TextView mTitleTxt, mReleaseDate, mVoteAverage, mOverview;
     private MovieDbHelper mDbHelper;
     private CheckBox mCheckBox;
+    private Button videoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +48,23 @@ public class DetailsActivity extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mDbHelper = new MovieDbHelper(this);
-        mCheckBox = (CheckBox)findViewById(R.id.favorites_checkbox);
+        mCheckBox = (CheckBox) findViewById(R.id.favorites_checkbox);
         //when the checkbox is selected , add the movie to Favorite database
         onCheckboxClicked(mCheckBox);
+        //videoView
+        final VideoView videoView = (VideoView) findViewById(R.id.movie_video);
+        //Creating MediaController
+        MediaController mediaController = new MediaController(this);
+        mediaController.setAnchorView(videoView);
+        //specify the location of media file
+        Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/media/1.mp4");
+
+        //Setting MediaController and URI, then starting the videoView
+        videoView.setMediaController(mediaController);
+        videoView.setVideoURI(uri);
+        videoView.requestFocus();
+        videoView.start();
+
 
         //Reference
         mTitleTxt = findViewById(R.id.original_title_tv);
@@ -53,6 +73,9 @@ public class DetailsActivity extends AppCompatActivity {
         mOverview = findViewById(R.id.overview);
         ImageView mMoviePoster = findViewById(R.id.movie_poster);
         RatingBar ratingBar = findViewById(R.id.ratingBar);
+        videoButton = findViewById(R.id.video_button);
+
+
 
         Intent intentStartDetailActivity = getIntent();
         //get the intent
@@ -106,6 +129,15 @@ public class DetailsActivity extends AppCompatActivity {
 //                }
 //            }
 //        }
+    public void watchTrailerBtnClicked (View view){
+                videoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //coding
+                Toast.makeText(DetailsActivity.this , "Watch the movie Trailer " , Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
@@ -146,9 +178,9 @@ public class DetailsActivity extends AppCompatActivity {
             onBackPressed();
         }
 
-        if (id == R.id.favorite_movie){
+        if (id == R.id.favorite_movie) {
             //open the favorite activity
-            Intent favoritesIntent = new Intent(this,Favorites.class);
+            Intent favoritesIntent = new Intent(this, Favorites.class);
             startActivity(favoritesIntent);
             return true;
         }

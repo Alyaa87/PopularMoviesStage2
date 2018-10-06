@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,6 +31,7 @@ import static com.example.android.popularmoviesstage2.Data.Contract.EXTRA_TITLE;
 import static com.example.android.popularmoviesstage2.Data.Contract.EXTRA_URL;
 import static com.example.android.popularmoviesstage2.Data.Contract.EXTRA_YEAR;
 import static com.example.android.popularmoviesstage2.Data.Contract.TITLE;
+import static com.example.android.popularmoviesstage2.Data.Contract.VIDEO_URL;
 
 public class DetailsActivity extends AppCompatActivity {
     //field to store the movie details
@@ -134,6 +136,9 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //coding
+
+                startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.youtube.com/watch?v=" +VIDEO_URL)));
+                Log.i("Video", "Video Playing....");
                 Toast.makeText(DetailsActivity.this , "Watch the movie Trailer " , Toast.LENGTH_LONG).show();
             }
         });
@@ -142,6 +147,7 @@ public class DetailsActivity extends AppCompatActivity {
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
+
         if (checked) {
             String movieName = mTitle.toString();
             SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -155,7 +161,7 @@ public class DetailsActivity extends AppCompatActivity {
                 Toast.makeText(this, "Movie failed to save ", Toast.LENGTH_LONG).show();
 
             }
-        }
+        } else removeMovie(view);
 
     }
 
@@ -187,5 +193,8 @@ public class DetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void removeMovie (View view){
+
+    }
 
 }

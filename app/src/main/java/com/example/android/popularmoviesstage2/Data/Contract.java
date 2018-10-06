@@ -29,8 +29,9 @@ public class Contract {
     public static final String EXTRA_OVERVIEW = "extra_overview";
     //the url for the vedio trailer
     public static final String EXTRA_WEBVIEW_URL = "web_view_url ";
-    public static final String VIDEO_URL = BASE_URL +"{movie_id}??api_key=%22" +API_KEY+ "%22&language=en-US";
-
+    public static final String VIDEO_URL = "https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key="
+            +API_KEY+ "&language=en-US";
+    public static final String REVIEW= "https://api.themoviedb.org/3/review/{review_id}?api_key="+API_KEY;
     //the url of value of image view
     public static final String IMAGE_URL = "http://image.tmdb.org/t/p/";
     public static final String W185 = "w185";
